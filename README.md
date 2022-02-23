@@ -16,7 +16,21 @@
 
 
 
-## 솔루션 
+### Project Stack 🛠
+
+
+
+**Server**
+
+- Java
+- SpringBoot
+- Oracle 
+- JPA
+
+
+
+## 솔루션  
+
 ![image](https://user-images.githubusercontent.com/97015607/155078421-5840da7a-617d-4617-9165-6fa9387f2522.png)
 
 ![image](https://user-images.githubusercontent.com/97015607/155078486-3288e6e8-7bf9-4298-8416-f519c17e8f35.png)
@@ -85,3 +99,11 @@ WithUs의 펀딩 상품은 모집금액 달성시 펀딩이 마감되고 상품�
 
 ![image](https://user-images.githubusercontent.com/97015607/155081258-ba02076b-5923-462e-bb5c-6be228fb7ebe.png)
 
+
+
+## Contributor
+
+📧 E-mail: dosldnjsss@gmail.com
+
+🐱 Github: https://github.com/hyunjungkimm
+<br><br>
