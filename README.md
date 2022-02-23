@@ -16,7 +16,21 @@
 
 
 
-## 솔루션 
+### Project Stack 🛠
+
+
+
+**Server**
+
+- Java
+- SpringBoot
+- Oracle 
+- JPA
+
+
+
+## 솔루션  
+
 ![image](https://user-images.githubusercontent.com/97015607/155078421-5840da7a-617d-4617-9165-6fa9387f2522.png)
 
 ![image](https://user-images.githubusercontent.com/97015607/155078486-3288e6e8-7bf9-4298-8416-f519c17e8f35.png)
@@ -41,10 +55,10 @@ WithUs의 펀딩 상품은 모집금액 달성시 펀딩이 마감되고 상품�
 
 
 
-#### 투자하기 API
+#### 펀딩하기 API
 - 펀딩사용자 식별값, 펀딩 상품 id, 펀딩 금액을 입력값으로 받는다. 
 - 총 펀딩 모집금액을 넘어서면 sold-out 상태를 응답한다. 
-- 투자를 한 후에 
+- 펀딩 한 후에 
   - 상품의 현재 펀딩 모집금액, 펀딩 사용자 수를 update한다. 
   - 나의 펀딩 상품을 update 한다. 
 
@@ -83,5 +97,13 @@ WithUs의 펀딩 상품은 모집금액 달성시 펀딩이 마감되고 상품�
 
 #### DB 구현체 
 
-![image](https://user-images.githubusercontent.com/97015607/155081258-ba02076b-5923-462e-bb5c-6be228fb7ebe.png)
+![image](https://user-images.githubusercontent.com/97015607/155268565-ddd73dc9-5cd4-4033-ac85-b97e6cf45edf.png)
 
+
+
+## Contributor
+
+📧 E-mail: dosldnjsss@gmail.com
+
+🐱 Github: https://github.com/hyunjungkimm
+<br><br>
