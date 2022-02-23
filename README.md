@@ -97,7 +97,7 @@ WithUs의 펀딩 상품은 모집금액 달성시 펀딩이 마감되고 상품�
 
 #### DB 구현체 
 
-![image](https://user-images.githubusercontent.com/97015607/155081258-ba02076b-5923-462e-bb5c-6be228fb7ebe.png)
+![image](https://user-images.githubusercontent.com/97015607/155268565-ddd73dc9-5cd4-4033-ac85-b97e6cf45edf.png)
 
 
 
