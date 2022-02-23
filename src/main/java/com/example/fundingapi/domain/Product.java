@@ -3,14 +3,12 @@ package com.example.fundingapi.domain;
 import lombok.Data;
 import lombok.Generated;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
-
-@Entity
 @Data
+@Entity
 public class Product {
     @Id
     @Column(name ="product_id")
@@ -27,5 +25,7 @@ public class Product {
     private int totalFundingAmount;
     @Column(name="funding_status")
     private String fundingStatus;
+    @Column(name="funding_user_number")
+    private int fundingUserNumber = 0 ;
 
 }

@@ -23,6 +23,8 @@ public class QProduct extends EntityPathBase<Product> {
 
     public final StringPath fundingStatus = createString("fundingStatus");
 
+    public final NumberPath<Integer> fundingUserNumber = createNumber("fundingUserNumber", Integer.class);
+
     public final NumberPath<Long> productId = createNumber("productId", Long.class);
 
     public final StringPath startDate = createString("startDate");

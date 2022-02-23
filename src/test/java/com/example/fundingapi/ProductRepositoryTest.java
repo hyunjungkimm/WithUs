@@ -1,7 +1,7 @@
 package com.example.fundingapi;
 
 import com.example.fundingapi.domain.Product;
-import com.example.fundingapi.repository.FundingRepository;
+import com.example.fundingapi.repository.ProductRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
@@ -11,15 +11,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ProductRepositoryTest {
 
     @Autowired
-    FundingRepository fundingRepository;
+    ProductRepository productRepository;
 
-/*
+
     //insert
     @Test
     @DisplayName("펀딩 상품 등록")
@@ -32,7 +33,7 @@ public class ProductRepositoryTest {
         product.setFinishDate("2022-02-28 23:59:59");
         product.setFundingStatus("모집중");
 
-        fundingRepository.save(product);
+        productRepository.save(product);
 
 
         Product product2 = new Product();
@@ -43,7 +44,7 @@ public class ProductRepositoryTest {
         product2.setFinishDate("2022-03-02 23:59:59");
         product2.setFundingStatus("모집중");
 
-        fundingRepository.save(product2);
+        productRepository.save(product2);
 
         Product product3 = new Product();
         product3.setProductId(1003);
@@ -53,20 +54,26 @@ public class ProductRepositoryTest {
         product3.setFinishDate("2022-03-10 23:59:59");
         product3.setFundingStatus("모집중");
 
-        fundingRepository.save(product3);
+        productRepository.save(product3);
     }
-*/
+
     @Test
     @DisplayName("전체펀딩상품조회API")
     public void findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(){
         String dateTime = LocalDateTime.now()+"";
         String now = dateTime;
-        List<Product> list = fundingRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dateTime,now);
+        List<Product> list = productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dateTime,now);
         System.out.println(dateTime);
         for(Product product : list){
             System.out.println(product.toString());
         }
     }
 
+    @Test
+    @DisplayName("상품 조회 테스트")
+    public void findByProductIdTest(){
+        Optional<Product> product =  productRepository.findById(1L);
+        System.out.println(product);
+    }
 
 }
