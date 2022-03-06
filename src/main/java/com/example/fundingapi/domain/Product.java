@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Table(name="product")
 @Entity
 public class Product {
     @Id
@@ -28,4 +29,7 @@ public class Product {
     @Column(name="funding_user_number")
     private int fundingUserNumber = 0 ;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+    List<Funding> funding = new ArrayList<>();
 }
+
