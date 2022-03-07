@@ -1,16 +1,20 @@
 package com.example.fundingapi.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.example.fundingapi.domain.Funding;
 import com.example.fundingapi.domain.Product;
 import com.example.fundingapi.domain.User;
-import com.example.fundingapi.dto.FundingDTO;
 import com.example.fundingapi.service.FundingService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 public class FundingController {
@@ -23,11 +27,14 @@ public class FundingController {
         return fundingService.productList();
     }
 
-    //@PatchMapping("/productFunding")
     @PatchMapping("/productFunding/{product_id}")
     @ResponseBody
-    //public void productFunding(@RequestAttribute long userId, @RequestParam long productId, @RequestParam int fundingAmount){
-    public void productFunding(@RequestAttribute long userId, @PathVariable(name = "product_id") long productId, @RequestParam int fundingAmount){
+    public void productFunding(
+        @RequestAttribute long userId,
+        @PathVariable(name = "product_id") long productId,
+        @RequestParam int fundingAmount
+    ){
+
         Funding funding = new Funding();
 
         Product product = new Product();

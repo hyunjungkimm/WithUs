@@ -19,21 +19,17 @@ public class HttpInterceptor implements HandlerInterceptor { //extends HandlerIn
     }
 
     @Override
-    public boolean preHandle(
-        HttpServletRequest request,
-        HttpServletResponse response,
-        Object handler
-    ) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
         //HTTP 요청 처리 전 수행할 로직 작성
         String userId = request.getHeader("X-USER-ID");
         Optional<User> user= userRepository.findById(Long.parseLong(userId));
         if(user.isPresent()){
             request.setAttribute("userId", user.get().getUserId());
-            return true;
-        }else {
-            return false;
         }
+        //TODO else throw Exception 처리 필요.
 
+        return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 
 }

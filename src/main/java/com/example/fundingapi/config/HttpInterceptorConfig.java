@@ -18,6 +18,6 @@ public class HttpInterceptorConfig implements WebMvcConfigurer { //extends WebMv
     public void addInterceptors(InterceptorRegistry registry){
 
         registry.addInterceptor(httpInterceptor)
-            .addPathPatterns("/productFunding/**/**");
+            .addPathPatterns("/productFunding/**");
     }
 }
