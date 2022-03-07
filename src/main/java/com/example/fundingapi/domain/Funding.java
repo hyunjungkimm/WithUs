@@ -1,6 +1,6 @@
 package com.example.fundingapi.domain;
 
-import lombok.Data;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;

@@ -23,11 +23,11 @@ public class FundingController {
         return fundingService.productList();
     }
 
-    @PatchMapping("/productFunding")
-    //@PatchMapping("/productFunding/{product_id}")
+    //@PatchMapping("/productFunding")
+    @PatchMapping("/productFunding/{product_id}")
     @ResponseBody
-    public void productFunding(@RequestAttribute long userId, @RequestParam long productId, @RequestParam int fundingAmount){
-    //public void productFunding(@RequestAttribute long userId, @PathVariable(name = "product_id") long productId, @RequestParam int fundingAmount){
+    //public void productFunding(@RequestAttribute long userId, @RequestParam long productId, @RequestParam int fundingAmount){
+    public void productFunding(@RequestAttribute long userId, @PathVariable(name = "product_id") long productId, @RequestParam int fundingAmount){
         Funding funding = new Funding();
 
         Product product = new Product();

@@ -1,7 +1,6 @@
 package com.example.fundingapi.domain;
 
-import lombok.Data;
-import lombok.Generated;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -31,5 +30,6 @@ public class Product {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     List<Funding> funding = new ArrayList<>();
+
 }
 
