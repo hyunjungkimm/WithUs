@@ -28,8 +28,7 @@ public class HttpInterceptor implements HandlerInterceptor { //extends HandlerIn
         String userId = request.getHeader("X-USER-ID");
         Optional<User> user= userRepository.findById(Long.parseLong(userId));
         if(user.isPresent()){
-            System.out.println("================="+user.get().getUserId());
-            request.setAttribute("user_id", user.get().getUserId());
+            request.setAttribute("userId", user.get().getUserId());
             return true;
         }else {
             return false;
