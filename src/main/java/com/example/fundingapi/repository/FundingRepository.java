@@ -1,13 +1,12 @@
 package com.example.fundingapi.repository;
 
 import com.example.fundingapi.domain.Funding;
-import com.example.fundingapi.domain.Product;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface FundingRepository extends CrudRepository<Funding, Long> {
+public interface FundingRepository extends JpaRepository<Funding, Long> {
 
-    public List<Funding> findByUserId(long userId);
+    List<Funding> findByOrderId(long orderId);
 
 }

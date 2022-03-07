@@ -2,18 +2,17 @@ package com.example.fundingapi.controller;
 
 import com.example.fundingapi.domain.Funding;
 import com.example.fundingapi.domain.Product;
+import com.example.fundingapi.domain.User;
 import com.example.fundingapi.dto.FundingDTO;
 import com.example.fundingapi.service.FundingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
-@Controller
+@RestController
 public class FundingController {
     @Autowired
     private FundingService fundingService;
@@ -25,13 +24,22 @@ public class FundingController {
     }
 
     @PatchMapping("/productFunding")
+    //@PatchMapping("/productFunding/{product_id}")
     @ResponseBody
-    public void productFunding(@RequestAttribute long user_id, long product_id, int funding_amount){
-        FundingDTO fundingDTO = new FundingDTO();
-        fundingDTO.setUserId(user_id);
-        fundingDTO.setProduct_id(product_id);
-        fundingDTO.setFundingAmount(funding_amount);
-        fundingService.productFunding(fundingDTO);
+    public void productFunding(@RequestAttribute long userId, @RequestParam long productId, @RequestParam int fundingAmount){
+    //public void productFunding(@RequestAttribute(name="user_id") long userId, @PathVariable(name = "product_id") long productId, @RequestParam int fundingAmount){
+        Funding funding = new Funding();
+
+        Product product = new Product();
+        product.setProductId(productId);
+
+        User user = new User();
+        user.setUserId(userId);
+
+        funding.setUser(user);
+        funding.setProduct(product);
+        funding.setFundingAmount(fundingAmount);
+        fundingService.productFunding(funding);
     }
 
     @GetMapping("/fundingList")

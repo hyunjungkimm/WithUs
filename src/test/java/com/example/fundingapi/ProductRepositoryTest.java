@@ -1,14 +1,18 @@
 package com.example.fundingapi;
 
 import com.example.fundingapi.domain.Product;
+import com.example.fundingapi.domain.User;
 import com.example.fundingapi.repository.ProductRepository;
+import com.example.fundingapi.repository.UserRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -19,12 +23,14 @@ public class ProductRepositoryTest {
 
     @Autowired
     ProductRepository productRepository;
-
+    @Autowired
+    UserRepository userRepository;
 
     //insert
     @Test
     @DisplayName("펀딩 상품 등록")
     public void TestInsertProduct(){
+
         Product product = new Product();
         product.setProductId(1001);
         product.setTitle("환절기 토탈케어 펀딩");
@@ -57,6 +63,8 @@ public class ProductRepositoryTest {
         productRepository.save(product3);
     }
 
+/*
+
     @Test
     @DisplayName("전체펀딩상품조회API")
     public void findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(){
@@ -75,5 +83,6 @@ public class ProductRepositoryTest {
         Optional<Product> product =  productRepository.findById(1L);
         System.out.println(product);
     }
+*/
 
 }

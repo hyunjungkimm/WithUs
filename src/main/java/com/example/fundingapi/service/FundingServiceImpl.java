@@ -2,6 +2,7 @@ package com.example.fundingapi.service;
 
 import com.example.fundingapi.domain.Funding;
 import com.example.fundingapi.domain.Product;
+import com.example.fundingapi.domain.User;
 import com.example.fundingapi.dto.FundingDTO;
 import com.example.fundingapi.repository.FundingRepository;
 import com.example.fundingapi.repository.ProductRepository;
@@ -35,11 +36,11 @@ public class FundingServiceImpl implements FundingService{
     }
 
     @Override
-    public void productFunding(FundingDTO fundingDTO) {
-        Optional<Product> product = productRepository.findById(fundingDTO.getProduct_id());
+    public void productFunding(Funding funding) {
+        Optional<Product> product = productRepository.findById(funding.getProduct().getProductId());
 
         System.out.println(product);
-        int fundingAmountSum = product.get().getTotalFundingAmount() + fundingDTO.getFundingAmount();
+        int fundingAmountSum = product.get().getTotalFundingAmount() + funding.getFundingAmount();
         System.out.println(fundingAmountSum);
         if(fundingAmountSum > product.get().getTargetFundingAmount()){
             System.out.println("sold-out");
@@ -52,21 +53,26 @@ public class FundingServiceImpl implements FundingService{
             product.get().setFundingUserNumber(product.get().getFundingUserNumber()+1);
             productRepository.save(product.get());
 
+            Product product1 = new Product();
+            product1.setProductId(funding.getProduct().getProductId());
+
+            User user = new User();
+            user.setUserId(funding.getUser().getUserId());
             //펀딩하기
-            Funding funding = new Funding();
-            funding.setFundingAmount(fundingDTO.getFundingAmount());
+            funding.setFundingAmount(funding.getFundingAmount());
             funding.setFundingDate(LocalDateTime.now());
-            funding.setOrderId(fundingDTO.getOrderId());
-            funding.setUserId(fundingDTO.getUserId());
-            funding.setProductId(fundingDTO.getProduct_id());
+            funding.setOrderId(funding.getOrderId());
+            funding.setUser(user);
+            funding.setProduct(product1);
             fundingRepository.save(funding);
+
         }
 
     }
 
     @Override
-    public List<Funding> fundingList(long user_id) {
-        List<Funding> fundingList = fundingRepository.findByUserId(user_id);
+    public List<Funding> fundingList(long orderId) {
+        List<Funding> fundingList = fundingRepository.findByOrderId(orderId);
 
         for(Funding funding: fundingList){
             System.out.println(funding);
