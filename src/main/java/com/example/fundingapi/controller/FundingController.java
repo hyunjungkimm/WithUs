@@ -31,18 +31,6 @@ public class FundingController {
         @PathVariable(name = "product_id") long productId,
         @RequestBody @NotNull FundingRequest fundingRequest
     ){
-/*
-        Funding funding = new Funding();
-
-        Product product = new Product();
-        product.setProductId(productId);
-
-        User user = new User();
-        user.setUserId(userId);
-
-        funding.setUser(user);
-        funding.setProduct(product);
-        funding.setFundingAmount(fundingRequest.getFundingAmount());*/
         fundingService.productFunding(userId, productId, fundingRequest);
     }
 
