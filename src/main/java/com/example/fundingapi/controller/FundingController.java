@@ -2,19 +2,16 @@ package com.example.fundingapi.controller;
 
 import java.util.List;
 
+import com.example.fundingapi.data.FundingRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.fundingapi.domain.Funding;
 import com.example.fundingapi.domain.Product;
 import com.example.fundingapi.domain.User;
 import com.example.fundingapi.service.FundingService;
+
+import javax.validation.constraints.NotNull;
 
 @RestController
 public class FundingController {
@@ -27,12 +24,12 @@ public class FundingController {
         return fundingService.productList();
     }
 
-    @PatchMapping("/productFunding/{product_id}")
+    @PatchMapping(value = "/productFunding/{product_id}")
     @ResponseBody
     public void productFunding(
         @RequestAttribute long userId,
         @PathVariable(name = "product_id") long productId,
-        @RequestParam int fundingAmount
+        @RequestBody @NotNull FundingRequest fundingRequest
     ){
 
         Funding funding = new Funding();
@@ -45,7 +42,7 @@ public class FundingController {
 
         funding.setUser(user);
         funding.setProduct(product);
-        funding.setFundingAmount(fundingAmount);
+        funding.setFundingAmount(fundingRequest.getFundingAmount());
         fundingService.productFunding(funding);
     }
 
