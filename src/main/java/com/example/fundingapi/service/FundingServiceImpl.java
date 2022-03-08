@@ -1,6 +1,7 @@
 package com.example.fundingapi.service;
 
 import com.example.fundingapi.data.FundingRequest;
+import com.example.fundingapi.data.FundingResponse;
 import com.example.fundingapi.domain.Funding;
 import com.example.fundingapi.domain.Product;
 import com.example.fundingapi.domain.User;
@@ -38,7 +39,7 @@ public class FundingServiceImpl implements FundingService{
 
 
     @Override
-    public void productFunding(long userId, long productId, FundingRequest fundingRequest) {
+    public FundingResponse productFunding(long userId, long productId, FundingRequest fundingRequest) {
         Optional<Product> product = productRepository.findById(productId);
 
         int fundingAmountSum = product.get().getTotalFundingAmount() + fundingRequest.getFundingAmount();
@@ -54,8 +55,11 @@ public class FundingServiceImpl implements FundingService{
         funding.setProduct(product.get());
         funding.setFundingAmount(fundingRequest.getFundingAmount());
 
+        FundingResponse fundingResponse = new FundingResponse();
+
         if(fundingAmountSum > product.get().getTargetFundingAmount()){
             System.out.println("sold-out");
+            fundingResponse.setFundingStatus("모집 완료");
         }else{
 
             //제품 업데이트
@@ -78,8 +82,10 @@ public class FundingServiceImpl implements FundingService{
             funding.setProduct(product1);
             fundingRepository.save(funding);
 
-        }
+            fundingResponse.setFundingStatus("모집중");
 
+        }
+        return fundingResponse;
     }
 
     @Override

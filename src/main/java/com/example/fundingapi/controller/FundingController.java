@@ -3,6 +3,7 @@ package com.example.fundingapi.controller;
 import java.util.List;
 
 import com.example.fundingapi.data.FundingRequest;
+import com.example.fundingapi.data.FundingResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,12 +27,12 @@ public class FundingController {
 
     @PostMapping(value = "/products/{product_id}/funding")
     @ResponseBody
-    public void productFunding(
+    public FundingResponse productFunding(
         @RequestAttribute long userId,
         @PathVariable(name = "product_id") long productId,
         @RequestBody @NotNull FundingRequest fundingRequest
     ){
-        fundingService.productFunding(userId, productId, fundingRequest);
+        return fundingService.productFunding(userId, productId, fundingRequest);
     }
 
     @GetMapping("/fundingList")
