@@ -1,5 +1,6 @@
 package com.example.fundingapi.service;
 
+import com.example.fundingapi.data.FundingRequest;
 import com.example.fundingapi.domain.Funding;
 import com.example.fundingapi.domain.Product;
 import com.example.fundingapi.domain.User;
@@ -35,7 +36,7 @@ public class FundingServiceImpl implements FundingService{
         return productList;
     }
 
-    @Override
+ /*   @Override
     public void productFunding(Funding funding) {
         Optional<Product> product = productRepository.findById(funding.getProduct().getProductId());
 
@@ -45,6 +46,7 @@ public class FundingServiceImpl implements FundingService{
         if(fundingAmountSum > product.get().getTargetFundingAmount()){
             System.out.println("sold-out");
         }else{
+
             //제품 업데이트
             if(fundingAmountSum == product.get().getTargetFundingAmount()){
                 product.get().setFundingStatus("모집 완료");
@@ -57,6 +59,52 @@ public class FundingServiceImpl implements FundingService{
             product1.setProductId(funding.getProduct().getProductId());
 
             User user = new User();
+            user.setUserId(funding.getUser().getUserId());
+            //펀딩하기
+            funding.setFundingAmount(funding.getFundingAmount());
+            funding.setFundingDate(LocalDateTime.now());
+            funding.setOrderId(funding.getOrderId());
+            funding.setUser(user);
+            funding.setProduct(product1);
+            fundingRepository.save(funding);
+
+        }
+
+    }
+*/
+
+    @Override
+    public void productFunding(long userId, long productId, FundingRequest fundingRequest) {
+        Optional<Product> product = productRepository.findById(productId);
+
+        int fundingAmountSum = product.get().getTotalFundingAmount() + fundingRequest.getFundingAmount();
+
+        Funding funding = new Funding();
+
+        product.get().setProductId(productId);
+
+        User user = new User();
+        user.setUserId(userId);
+
+        funding.setUser(user);
+        funding.setProduct(product.get());
+        funding.setFundingAmount(fundingRequest.getFundingAmount());
+
+        if(fundingAmountSum > product.get().getTargetFundingAmount()){
+            System.out.println("sold-out");
+        }else{
+
+            //제품 업데이트
+            if(fundingAmountSum == product.get().getTargetFundingAmount()){
+                product.get().setFundingStatus("모집 완료");
+            }
+            product.get().setTotalFundingAmount(fundingAmountSum);
+            product.get().setFundingUserNumber(product.get().getFundingUserNumber()+1);
+            productRepository.save(product.get());
+
+            Product product1 = new Product();
+            product1.setProductId(funding.getProduct().getProductId());
+
             user.setUserId(funding.getUser().getUserId());
             //펀딩하기
             funding.setFundingAmount(funding.getFundingAmount());

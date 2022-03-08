@@ -31,7 +31,7 @@ public class FundingController {
         @PathVariable(name = "product_id") long productId,
         @RequestBody @NotNull FundingRequest fundingRequest
     ){
-
+/*
         Funding funding = new Funding();
 
         Product product = new Product();
@@ -42,8 +42,8 @@ public class FundingController {
 
         funding.setUser(user);
         funding.setProduct(product);
-        funding.setFundingAmount(fundingRequest.getFundingAmount());
-        fundingService.productFunding(funding);
+        funding.setFundingAmount(fundingRequest.getFundingAmount());*/
+        fundingService.productFunding(userId, productId, fundingRequest);
     }
 
     @GetMapping("/fundingList")
