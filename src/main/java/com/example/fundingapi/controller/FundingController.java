@@ -24,7 +24,7 @@ public class FundingController {
         return fundingService.productList();
     }
 
-    @PatchMapping(value = "/products/{product_id}/funding")
+    @PostMapping(value = "/products/{product_id}/funding")
     @ResponseBody
     public void productFunding(
         @RequestAttribute long userId,
