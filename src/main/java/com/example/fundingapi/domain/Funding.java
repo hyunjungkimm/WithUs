@@ -1,7 +1,5 @@
 package com.example.fundingapi.domain;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -10,15 +8,17 @@ import java.time.LocalDateTime;
 
 
 @Data
-@JsonNaming(value = PropertyNamingStrategy.SnakeCaseStrategy.class)
 @Table(name="funding")
 @Entity
 public class Funding {
     @Id
+    @Column(name ="order_id")
     @GeneratedValue
     private long orderId;
+    @Column(name ="funding_amount")
     private int fundingAmount;
     @CreatedDate
+    @Column(name ="funding_date")
     private LocalDateTime fundingDate;
 
     @ManyToOne(fetch = FetchType.LAZY)

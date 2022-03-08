@@ -27,6 +27,7 @@ public class HttpInterceptor implements HandlerInterceptor { //extends HandlerIn
         if(user.isPresent()){
             request.setAttribute("userId", user.get().getUserId());
         }
+
         //TODO else throw Exception 처리 필요.
 
         return HandlerInterceptor.super.preHandle(request, response, handler);
