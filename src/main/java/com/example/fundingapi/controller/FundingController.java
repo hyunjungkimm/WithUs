@@ -1,18 +1,20 @@
 package com.example.fundingapi.controller;
 
-import com.example.fundingapi.domain.Funding;
-import com.example.fundingapi.domain.Product;
-import com.example.fundingapi.dto.FundingDTO;
-import com.example.fundingapi.service.FundingService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.util.List;
 
-@Controller
+import com.example.fundingapi.data.FundingRequest;
+import com.example.fundingapi.data.FundingResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import com.example.fundingapi.domain.Funding;
+import com.example.fundingapi.domain.Product;
+import com.example.fundingapi.domain.User;
+import com.example.fundingapi.service.FundingService;
+
+import javax.validation.constraints.NotNull;
+
+@RestController
 public class FundingController {
     @Autowired
     private FundingService fundingService;
@@ -23,14 +25,14 @@ public class FundingController {
         return fundingService.productList();
     }
 
-    @PatchMapping("/productFunding")
+    @PostMapping(value = "/products/{product_id}/funding")
     @ResponseBody
-    public void productFunding(long user_id, long product_id, int funding_amount){
-        FundingDTO fundingDTO = new FundingDTO();
-        fundingDTO.setUserId(user_id);
-        fundingDTO.setProduct_id(product_id);
-        fundingDTO.setFundingAmount(funding_amount);
-        fundingService.productFunding(fundingDTO);
+    public FundingResponse productFunding(
+        @RequestAttribute long userId,
+        @PathVariable(name = "product_id") long productId,
+        @RequestBody @NotNull FundingRequest fundingRequest
+    ){
+        return fundingService.productFunding(userId, productId, fundingRequest);
     }
 
     @GetMapping("/fundingList")

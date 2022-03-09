@@ -1,12 +1,12 @@
 package com.example.fundingapi.repository;
 
 import com.example.fundingapi.domain.Product;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ProductRepository extends CrudRepository<Product, Long> {
-    public List<Product> findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(String dateTime, String now);
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    List<Product> findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(String dateTime, String now);
 
 
 }

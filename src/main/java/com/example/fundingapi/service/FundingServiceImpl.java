@@ -1,7 +1,10 @@
 package com.example.fundingapi.service;
 
+import com.example.fundingapi.data.FundingRequest;
+import com.example.fundingapi.data.FundingResponse;
 import com.example.fundingapi.domain.Funding;
 import com.example.fundingapi.domain.Product;
+import com.example.fundingapi.domain.User;
 import com.example.fundingapi.dto.FundingDTO;
 import com.example.fundingapi.repository.FundingRepository;
 import com.example.fundingapi.repository.ProductRepository;
@@ -34,16 +37,31 @@ public class FundingServiceImpl implements FundingService{
         return productList;
     }
 
-    @Override
-    public void productFunding(FundingDTO fundingDTO) {
-        Optional<Product> product = productRepository.findById(fundingDTO.getProduct_id());
 
-        System.out.println(product);
-        int fundingAmountSum = product.get().getTotalFundingAmount() + fundingDTO.getFundingAmount();
-        System.out.println(fundingAmountSum);
+    @Override
+    public FundingResponse productFunding(long userId, long productId, FundingRequest fundingRequest) {
+        Optional<Product> product = productRepository.findById(productId);
+
+        int fundingAmountSum = product.get().getTotalFundingAmount() + fundingRequest.getFundingAmount();
+
+        Funding funding = new Funding();
+
+        product.get().setProductId(productId);
+
+        User user = new User();
+        user.setUserId(userId);
+
+        funding.setUser(user);
+        funding.setProduct(product.get());
+        funding.setFundingAmount(fundingRequest.getFundingAmount());
+
+        FundingResponse fundingResponse = new FundingResponse();
+
         if(fundingAmountSum > product.get().getTargetFundingAmount()){
             System.out.println("sold-out");
+            fundingResponse.setFundingStatus("모집 완료");
         }else{
+
             //제품 업데이트
             if(fundingAmountSum == product.get().getTargetFundingAmount()){
                 product.get().setFundingStatus("모집 완료");
@@ -52,21 +70,28 @@ public class FundingServiceImpl implements FundingService{
             product.get().setFundingUserNumber(product.get().getFundingUserNumber()+1);
             productRepository.save(product.get());
 
-            //펀딩하기
-            Funding funding = new Funding();
-            funding.setFundingAmount(fundingDTO.getFundingAmount());
-            funding.setFundingDate(LocalDateTime.now());
-            funding.setOrderId(fundingDTO.getOrderId());
-            funding.setUserId(fundingDTO.getUserId());
-            funding.setProductId(fundingDTO.getProduct_id());
-            fundingRepository.save(funding);
-        }
+            Product product1 = new Product();
+            product1.setProductId(funding.getProduct().getProductId());
 
+            user.setUserId(funding.getUser().getUserId());
+            //펀딩하기
+            funding.setFundingAmount(funding.getFundingAmount());
+            funding.setFundingDate(LocalDateTime.now());
+            funding.setFundingId(funding.getFundingId());
+            funding.setUser(user);
+            funding.setProduct(product1);
+            fundingRepository.save(funding);
+
+            fundingResponse.setFundingStatus("모집중");
+
+
+        }
+        return fundingResponse;
     }
 
     @Override
-    public List<Funding> fundingList(long user_id) {
-        List<Funding> fundingList = fundingRepository.findByUserId(user_id);
+    public List<Funding> fundingList(long fundingId) {
+        List<Funding> fundingList = fundingRepository.findByFundingId(fundingId);
 
         for(Funding funding: fundingList){
             System.out.println(funding);

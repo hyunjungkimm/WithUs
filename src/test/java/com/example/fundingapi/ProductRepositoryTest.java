@@ -1,14 +1,18 @@
 package com.example.fundingapi;
 
 import com.example.fundingapi.domain.Product;
+import com.example.fundingapi.domain.User;
 import com.example.fundingapi.repository.ProductRepository;
+import com.example.fundingapi.repository.UserRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -19,18 +23,21 @@ public class ProductRepositoryTest {
 
     @Autowired
     ProductRepository productRepository;
-
+    @Autowired
+    UserRepository userRepository;
+/*
 
     //insert
     @Test
     @DisplayName("펀딩 상품 등록")
     public void TestInsertProduct(){
+
         Product product = new Product();
         product.setProductId(1001);
         product.setTitle("환절기 토탈케어 펀딩");
         product.setTargetFundingAmount(500000);
-        product.setStartDate("2022-02-17 00:00:00");
-        product.setFinishDate("2022-02-28 23:59:59");
+        product.setStartDate(2022-02-17 00:00:00);
+        product.setFinishDate(2022-02-28 23:59:59);
         product.setFundingStatus("모집중");
 
         productRepository.save(product);
@@ -50,12 +57,15 @@ public class ProductRepositoryTest {
         product3.setProductId(1003);
         product3.setTitle("10분 완성 밀키트");
         product3.setTargetFundingAmount(500000);
-        product3.setStartDate("2022-02-28 00:00:00");
+        product3.setStartDate(2021-05-01 09:00:00.00000);
         product3.setFinishDate("2022-03-10 23:59:59");
         product3.setFundingStatus("모집중");
 
         productRepository.save(product3);
     }
+*/
+
+/*
 
     @Test
     @DisplayName("전체펀딩상품조회API")
@@ -75,5 +85,6 @@ public class ProductRepositoryTest {
         Optional<Product> product =  productRepository.findById(1L);
         System.out.println(product);
     }
+*/
 
 }
