@@ -13,6 +13,6 @@ public interface FundingService {
 
     public FundingResponse productFunding(long userId, long productId, FundingRequest fundingRequest);
 
-    public List<Funding> fundingList(long funding_Id);
+    public List<Funding> fundingList(long fundingId);
 
 }
