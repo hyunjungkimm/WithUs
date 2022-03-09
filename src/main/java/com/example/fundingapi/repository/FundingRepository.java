@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface FundingRepository extends JpaRepository<Funding, Long> {
 
-    List<Funding> findByOrderId(long orderId);
+    List<Funding> findByFundingId(long fundingId);
 
 }

@@ -4,11 +4,12 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Table(name="product")
+@Table(name="PRODUCT")
 @Entity
 public class Product implements Serializable {
     @Id
@@ -19,9 +20,9 @@ public class Product implements Serializable {
     @Column(name="target_funding_amount")
     private int targetFundingAmount;
     @Column(name="start_date")
-    private String startDate;
+    private LocalDateTime startDate;
     @Column(name="finish_date")
-    private String finishDate;
+    private LocalDateTime finishDate;
     @Column(name="total_funding_amount")
     private int totalFundingAmount;
     @Column(name="funding_status")

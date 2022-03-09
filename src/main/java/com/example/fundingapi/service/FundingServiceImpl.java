@@ -77,7 +77,7 @@ public class FundingServiceImpl implements FundingService{
             //펀딩하기
             funding.setFundingAmount(funding.getFundingAmount());
             funding.setFundingDate(LocalDateTime.now());
-            funding.setOrderId(funding.getOrderId());
+            funding.setFundingId(funding.getFundingId());
             funding.setUser(user);
             funding.setProduct(product1);
             fundingRepository.save(funding);
@@ -89,8 +89,8 @@ public class FundingServiceImpl implements FundingService{
     }
 
     @Override
-    public List<Funding> fundingList(long orderId) {
-        List<Funding> fundingList = fundingRepository.findByOrderId(orderId);
+    public List<Funding> fundingList(long fundingId) {
+        List<Funding> fundingList = fundingRepository.findByFundingId(fundingId);
 
         for(Funding funding: fundingList){
             System.out.println(funding);

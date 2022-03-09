@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @Entity
 public class Funding {
     @Id
-    @Column(name ="order_id")
+    @Column(name ="funding_id")
     @GeneratedValue
-    private long orderId;
+    private long fundingId;
     @Column(name ="funding_amount")
     private int fundingAmount;
     @CreatedDate
