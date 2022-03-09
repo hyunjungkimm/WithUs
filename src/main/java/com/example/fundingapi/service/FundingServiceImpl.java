@@ -84,6 +84,7 @@ public class FundingServiceImpl implements FundingService{
 
             fundingResponse.setFundingStatus("모집중");
 
+
         }
         return fundingResponse;
     }
