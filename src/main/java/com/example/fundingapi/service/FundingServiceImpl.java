@@ -6,15 +6,18 @@ import com.example.fundingapi.domain.Funding;
 import com.example.fundingapi.domain.Product;
 import com.example.fundingapi.domain.User;
 import com.example.fundingapi.dto.FundingDTO;
+import com.example.fundingapi.dto.MyFundingDTO;
 import com.example.fundingapi.error.ErrorCode;
 import com.example.fundingapi.exception.entity.user.UserNotFoundException;
 import com.example.fundingapi.exception.service.funding.FundingServiceException;
 import com.example.fundingapi.repository.FundingRepository;
 import com.example.fundingapi.repository.ProductRepository;
+import com.example.fundingapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,12 +30,12 @@ public class FundingServiceImpl implements FundingService{
     @Autowired
     FundingRepository fundingRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     @Override
     public List<Product> productList() {
         LocalDateTime dt = LocalDateTime.now();
-      /*  String dateTime = LocalDateTime.now() +"";
-        String now = dateTime;
-        List<Product> productList = productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dateTime, now);*/
 
         List<Product> productList = productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dt, dt);
 
@@ -96,13 +99,21 @@ public class FundingServiceImpl implements FundingService{
     }
 
     @Override
-    public List<Funding> fundingList(long fundingId) {
-        List<Funding> fundingList = fundingRepository.findByFundingId(fundingId);
+    public List<MyFundingDTO> fundingList(long userId) {
+
+        List<Funding> fundingList = fundingRepository.findByUserUserId(userId);
+        List<MyFundingDTO> myFundingList = new ArrayList<>();
 
         for(Funding funding: fundingList){
-            System.out.println(funding);
-        }
+            MyFundingDTO myFundingDTO = new MyFundingDTO();
+            myFundingDTO.setProductId(funding.getProduct().getProductId());
+            myFundingDTO.setTitle(funding.getProduct().getTitle());
+            myFundingDTO.setTotalFundingAmount(funding.getProduct().getTotalFundingAmount());
+            myFundingDTO.setFundingAmount(funding.getFundingAmount());
+            myFundingDTO.setFundingDate(funding.getFundingDate());
 
-        return fundingList;
+            myFundingList.add(myFundingDTO);
+        }
+        return myFundingList;
     }
 }

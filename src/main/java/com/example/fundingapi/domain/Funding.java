@@ -1,5 +1,6 @@
 package com.example.fundingapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -22,10 +23,10 @@ public class Funding {
     @Column(name ="funding_date")
     private LocalDateTime fundingDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Product product;
 

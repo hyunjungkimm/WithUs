@@ -5,6 +5,7 @@ import com.example.fundingapi.data.FundingResponse;
 import com.example.fundingapi.domain.Funding;
 import com.example.fundingapi.domain.Product;
 import com.example.fundingapi.dto.FundingDTO;
+import com.example.fundingapi.dto.MyFundingDTO;
 
 import java.util.List;
 
@@ -13,6 +14,6 @@ public interface FundingService {
 
     public FundingResponse productFunding(long userId, long productId, FundingRequest fundingRequest);
 
-    public List<Funding> fundingList(long fundingId);
+    public List<MyFundingDTO> fundingList(long userId);
 
 }

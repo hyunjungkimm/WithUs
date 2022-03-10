@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.fundingapi.data.FundingRequest;
 import com.example.fundingapi.data.FundingResponse;
+import com.example.fundingapi.dto.MyFundingDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,8 +38,7 @@ public class FundingController {
     }
 
     @GetMapping("/fundingList")
-    @ResponseBody
-    public List<Funding> fundingList(long user_id){
-        return fundingService.fundingList(user_id);
+    public List<MyFundingDTO> fundingList(@RequestAttribute long userId){
+        return fundingService.fundingList(userId);
     }
 }
