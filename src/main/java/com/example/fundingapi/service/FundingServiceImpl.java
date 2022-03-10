@@ -6,6 +6,9 @@ import com.example.fundingapi.domain.Funding;
 import com.example.fundingapi.domain.Product;
 import com.example.fundingapi.domain.User;
 import com.example.fundingapi.dto.FundingDTO;
+import com.example.fundingapi.error.ErrorCode;
+import com.example.fundingapi.exception.entity.user.UserNotFoundException;
+import com.example.fundingapi.exception.service.funding.FundingServiceException;
 import com.example.fundingapi.repository.FundingRepository;
 import com.example.fundingapi.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +62,7 @@ public class FundingServiceImpl implements FundingService{
 
         if(fundingAmountSum > product.get().getTargetFundingAmount()){
             System.out.println("sold-out");
-            fundingResponse.setFundingStatus("모집 완료");
+            throw new FundingServiceException(ErrorCode.SOLD_OUT);
         }else{
 
             //제품 업데이트

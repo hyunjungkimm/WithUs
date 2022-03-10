@@ -29,9 +29,9 @@ public class FundingController {
     @PostMapping(value = "/products/{product_id}/funding")
     @ResponseBody
     public FundingResponse productFunding(
-        @RequestAttribute long userId,
+        @RequestAttribute @NotNull long userId,
         @PathVariable(name = "product_id") long productId,
-        @RequestBody @Valid FundingRequest fundingRequest
+        @RequestBody @Valid @NotNull FundingRequest fundingRequest
     ){
         return fundingService.productFunding(userId, productId, fundingRequest);
     }
