@@ -1,5 +1,6 @@
 package com.example.fundingapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,7 +9,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Table(name="PRODUCT")
 @Entity
 public class Product implements Serializable {
@@ -30,6 +32,7 @@ public class Product implements Serializable {
     @Column(name="funding_user_number")
     private int fundingUserNumber = 0 ;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     List<Funding> funding = new ArrayList<>();
 

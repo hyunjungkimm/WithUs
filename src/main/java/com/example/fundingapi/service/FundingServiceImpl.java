@@ -29,9 +29,12 @@ public class FundingServiceImpl implements FundingService{
 
     @Override
     public List<Product> productList() {
-        String dateTime = LocalDateTime.now() +"";
+        LocalDateTime dt = LocalDateTime.now();
+      /*  String dateTime = LocalDateTime.now() +"";
         String now = dateTime;
-        List<Product> productList = productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dateTime, now);
+        List<Product> productList = productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dateTime, now);*/
+
+        List<Product> productList = productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dt, dt);
 
         for(Product product : productList){
             System.out.println(product);
