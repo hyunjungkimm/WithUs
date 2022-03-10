@@ -2,6 +2,7 @@ package com.example.fundingapi.interceptor;
 
 import com.example.fundingapi.domain.User;
 import com.example.fundingapi.error.ErrorCode;
+import com.example.fundingapi.exception.entity.user.UserNotFoundException;
 import com.example.fundingapi.exception.service.user.UserServiceException;
 import com.example.fundingapi.repository.UserRepository;
 import org.springframework.stereotype.Component;
@@ -32,9 +33,9 @@ public class HttpInterceptor implements HandlerInterceptor { //extends HandlerIn
             Optional<User> user = userRepository.findById(Long.parseLong(userId));
             if (user.isPresent()) {
                 request.setAttribute("userId", user.get().getUserId());
-            } else if (!user.isPresent()) {
+            }else{
                 //TODO else throw Exception 처리 필요.
-                throw new UserServiceException(ErrorCode.NOT_SIGNED_UP_USER);
+                throw new UserNotFoundException(ErrorCode.NOT_SIGNED_UP_USER);
             }
             return HandlerInterceptor.super.preHandle(request, response, handler);
         }else{

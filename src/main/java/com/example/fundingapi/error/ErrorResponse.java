@@ -1,10 +1,7 @@
 package com.example.fundingapi.error;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import java.util.List;
+import org.springframework.validation.BindingResult;
 
 @Getter
 /*@NoArgsConstructor(access =  AccessLevel.PROTECTED)*/
