@@ -5,15 +5,12 @@ import com.example.fundingapi.data.FundingResponse;
 import com.example.fundingapi.domain.Funding;
 import com.example.fundingapi.domain.Product;
 import com.example.fundingapi.domain.User;
-import com.example.fundingapi.dto.FundingDTO;
 import com.example.fundingapi.dto.MyFundingDTO;
 import com.example.fundingapi.error.ErrorCode;
-import com.example.fundingapi.exception.entity.user.UserNotFoundException;
 import com.example.fundingapi.exception.service.funding.FundingServiceException;
 import com.example.fundingapi.repository.FundingRepository;
 import com.example.fundingapi.repository.ProductRepository;
 import com.example.fundingapi.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,14 +21,17 @@ import java.util.Optional;
 @Service
 public class FundingServiceImpl implements FundingService{
 
-    @Autowired
-    ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    FundingRepository fundingRepository;
+    private final FundingRepository fundingRepository;
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public FundingServiceImpl(ProductRepository productRepository, FundingRepository fundingRepository, UserRepository userRepository) {
+        this.productRepository = productRepository;
+        this.fundingRepository = fundingRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public List<Product> productList() {

@@ -5,12 +5,9 @@ import java.util.List;
 import com.example.fundingapi.data.FundingRequest;
 import com.example.fundingapi.data.FundingResponse;
 import com.example.fundingapi.dto.MyFundingDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.fundingapi.domain.Funding;
 import com.example.fundingapi.domain.Product;
-import com.example.fundingapi.domain.User;
 import com.example.fundingapi.service.FundingService;
 
 import javax.validation.Valid;
@@ -18,8 +15,12 @@ import javax.validation.constraints.NotNull;
 
 @RestController
 public class FundingController {
-    @Autowired
-    private FundingService fundingService;
+
+    private final FundingService fundingService;
+
+    public FundingController(FundingService fundingService) {
+        this.fundingService = fundingService;
+    }
 
     @GetMapping("/productList")
     @ResponseBody
