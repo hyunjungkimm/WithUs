@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor(access =  AccessLevel.PROTECTED)
+/*@NoArgsConstructor(access =  AccessLevel.PROTECTED)*/
 public class ErrorResponse {
     private String message;
     private String code;

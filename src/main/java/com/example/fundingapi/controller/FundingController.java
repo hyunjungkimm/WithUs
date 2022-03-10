@@ -12,6 +12,7 @@ import com.example.fundingapi.domain.Product;
 import com.example.fundingapi.domain.User;
 import com.example.fundingapi.service.FundingService;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @RestController
@@ -30,7 +31,7 @@ public class FundingController {
     public FundingResponse productFunding(
         @RequestAttribute long userId,
         @PathVariable(name = "product_id") long productId,
-        @RequestBody @NotNull FundingRequest fundingRequest
+        @RequestBody @Valid FundingRequest fundingRequest
     ){
         return fundingService.productFunding(userId, productId, fundingRequest);
     }

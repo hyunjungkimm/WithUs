@@ -1,5 +1,8 @@
-package com.example.fundingapi.error;
+package com.example.fundingapi.exception.handler;
 
+import com.example.fundingapi.error.ErrorCode;
+import com.example.fundingapi.error.ErrorResponse;
+import com.example.fundingapi.exception.service.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +26,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity(response, HttpStatus.NOT_FOUND);
     }
 
+
+
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<ErrorResponse> handleException(Exception e) {
+        log.error("handleEntityNotFoundException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.NOT_EXISTS_USED_ID_HEADER);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 
 }

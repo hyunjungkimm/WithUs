@@ -1,6 +1,8 @@
 package com.example.fundingapi.interceptor;
 
 import com.example.fundingapi.domain.User;
+import com.example.fundingapi.error.ErrorCode;
+import com.example.fundingapi.exception.service.user.UserServiceException;
 import com.example.fundingapi.repository.UserRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -21,16 +23,24 @@ public class HttpInterceptor implements HandlerInterceptor { //extends HandlerIn
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+
         //HTTP 요청 처리 전 수행할 로직 작성
         String userId = request.getHeader("X-USER-ID");
-        Optional<User> user= userRepository.findById(Long.parseLong(userId));
-        if(user.isPresent()){
-            request.setAttribute("userId", user.get().getUserId());
+        System.out.println("userId=" + userId);
+        if(userId != null) {
+
+            Optional<User> user = userRepository.findById(Long.parseLong(userId));
+            if (user.isPresent()) {
+                request.setAttribute("userId", user.get().getUserId());
+            } else if (!user.isPresent()) {
+                //TODO else throw Exception 처리 필요.
+                throw new UserServiceException(ErrorCode.NOT_SIGNED_UP_USER);
+            }
+            return HandlerInterceptor.super.preHandle(request, response, handler);
+        }else{
+            throw new UserServiceException(ErrorCode.NOT_EXISTS_USED_ID_HEADER);
         }
 
-        //TODO else throw Exception 처리 필요.
-
-        return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 
 }
