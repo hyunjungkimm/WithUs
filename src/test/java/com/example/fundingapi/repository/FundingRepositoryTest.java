@@ -6,6 +6,8 @@ import com.example.fundingapi.domain.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,5 +38,13 @@ public class FundingRepositoryTest {
             .hasOnlyElementsOfType(Product.class);
     }
 
-
+    @DisplayName("테스트03_나의_펀딩상품_조회")
+    @ParameterizedTest
+    @ValueSource(longs={1,2,3})
+    public void 테스트03_나의_펀딩상품_조회(Long userId){
+        assertThat(fundingRepository.findByUserUserId(userId))
+            .isNotNull()
+            .hasSizeGreaterThanOrEqualTo(0)
+            .hasOnlyElementsOfType(Funding.class);
+    }
 }
