@@ -23,30 +23,13 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UserServiceException.class)
-    protected ResponseEntity<ErrorResponse> UserServiceException(UserServiceException e) {
-        log.error("UserServiceException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.NOT_EXISTS_USED_ID_HEADER);
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler(FundingServiceException.class)
-    protected ResponseEntity<ErrorResponse> FundingServiceException(FundingServiceException e) {
-        log.error("FundingServiceException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.SOLD_OUT);
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler(UserNotFoundException.class)
-    protected ResponseEntity<ErrorResponse> handleBusinessException(final UserNotFoundException e) {
-        log.error("handleEntityNotFoundException", e);
-        final ErrorCode errorCode = e.getErrorCode();
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.NOT_SIGNED_UP_USER);
+    @ExceptionHandler(value=BusinessException.class)
+    protected ResponseEntity<ErrorResponse> BusinessException(final BusinessException e) {
+        log.error("BusinessException", e);
+        ErrorCode errorCode = e.getErrorCode();
+        final ErrorResponse response = ErrorResponse.of(errorCode);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
-
-
-
 
 }
 
