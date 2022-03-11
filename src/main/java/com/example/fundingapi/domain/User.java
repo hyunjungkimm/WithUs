@@ -1,5 +1,6 @@
 package com.example.fundingapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,7 @@ public class User {
     @Column(name="name")
     private String name;
 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private List<Funding> funding = new ArrayList<>();
 

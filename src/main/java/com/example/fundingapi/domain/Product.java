@@ -1,6 +1,7 @@
 package com.example.fundingapi.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,7 +33,7 @@ public class Product implements Serializable {
     @Column(name="funding_user_number")
     private int fundingUserNumber = 0 ;
 
-    @JsonIgnore
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     List<Funding> funding = new ArrayList<>();
 

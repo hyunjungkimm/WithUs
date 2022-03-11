@@ -1,6 +1,8 @@
 package com.example.fundingapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -26,9 +28,11 @@ public class Funding {
     @Column(name ="funding_date")
     private LocalDateTime fundingDate;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
