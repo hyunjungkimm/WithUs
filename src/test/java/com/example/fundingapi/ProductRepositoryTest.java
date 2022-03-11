@@ -25,57 +25,16 @@ public class ProductRepositoryTest {
     ProductRepository productRepository;
     @Autowired
     UserRepository userRepository;
-/*
 
-    //insert
-    @Test
-    @DisplayName("펀딩 상품 등록")
-    public void TestInsertProduct(){
-
-        Product product = new Product();
-        product.setProductId(1001);
-        product.setTitle("환절기 토탈케어 펀딩");
-        product.setTargetFundingAmount(500000);
-        product.setStartDate(2022-02-17 00:00:00);
-        product.setFinishDate(2022-02-28 23:59:59);
-        product.setFundingStatus("모집중");
-
-        productRepository.save(product);
-
-
-        Product product2 = new Product();
-        product2.setProductId(1002);
-        product2.setTitle("헤드셋 펀딩");
-        product2.setTargetFundingAmount(1000000);
-        product2.setStartDate("2022-02-20 00:00:00");
-        product2.setFinishDate("2022-03-02 23:59:59");
-        product2.setFundingStatus("모집중");
-
-        productRepository.save(product2);
-
-        Product product3 = new Product();
-        product3.setProductId(1003);
-        product3.setTitle("10분 완성 밀키트");
-        product3.setTargetFundingAmount(500000);
-        product3.setStartDate(2021-05-01 09:00:00.00000);
-        product3.setFinishDate("2022-03-10 23:59:59");
-        product3.setFundingStatus("모집중");
-
-        productRepository.save(product3);
-    }
-*/
-
-/*
 
     @Test
     @DisplayName("전체펀딩상품조회API")
     public void findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(){
-        String dateTime = LocalDateTime.now()+"";
-        String now = dateTime;
-        List<Product> list = productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dateTime,now);
+        LocalDateTime dateTime = LocalDateTime.now();
+        List<Product> list = productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dateTime,dateTime);
         System.out.println(dateTime);
         for(Product product : list){
-            System.out.println(product.toString());
+            System.out.println(product.getProductId());
         }
     }
 
@@ -85,6 +44,6 @@ public class ProductRepositoryTest {
         Optional<Product> product =  productRepository.findById(1L);
         System.out.println(product);
     }
-*/
+
 
 }

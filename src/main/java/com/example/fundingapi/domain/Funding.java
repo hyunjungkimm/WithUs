@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 @Setter
 @Table(name="funding")
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Funding {
     @Id
     @Column(name ="funding_id")
