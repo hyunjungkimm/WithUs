@@ -33,7 +33,7 @@ public class FundingController {
     public FundingResponse productFunding(
         @RequestAttribute @NotNull long userId,
         @PathVariable(name = "product_id") long productId,
-        @RequestBody @Valid @NotNull FundingRequest fundingRequest
+        @RequestBody @Valid FundingRequest fundingRequest
     ){
         return fundingService.productFunding(userId, productId, fundingRequest);
     }
