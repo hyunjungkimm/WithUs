@@ -23,12 +23,20 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(value=BusinessException.class)
-    protected ResponseEntity<ErrorResponse> BusinessException(final BusinessException e) {
-        log.error("BusinessException", e);
+    @ExceptionHandler(value=EntityNotFoundException.class)
+    protected ResponseEntity<ErrorResponse> EntityNotFoundException(final EntityNotFoundException e) {
+        log.error("EntityNotFoundException", e);
         ErrorCode errorCode = e.getErrorCode();
         final ErrorResponse response = ErrorResponse.of(errorCode);
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);//404
+    }
+
+    @ExceptionHandler(value=ServiceException.class)
+    protected ResponseEntity<ErrorResponse> ServiceException(final ServiceException e) {
+        log.error("ServiceException", e);
+        ErrorCode errorCode = e.getErrorCode();
+        final ErrorResponse response = ErrorResponse.of(errorCode);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);//500
     }
 
 }
