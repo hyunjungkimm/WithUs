@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FundingRequest {
-    @Valid
+
     @NotNull
     private int fundingAmount;
 
