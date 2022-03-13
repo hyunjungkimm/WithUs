@@ -5,30 +5,39 @@ import com.example.fundingapi.data.FundingResponse;
 import com.example.fundingapi.domain.Funding;
 import com.example.fundingapi.domain.Product;
 import com.example.fundingapi.domain.User;
-import com.example.fundingapi.dto.FundingDTO;
+import com.example.fundingapi.dto.MyFundingDTO;
+import com.example.fundingapi.error.ErrorCode;
+import com.example.fundingapi.exception.service.funding.FundingServiceException;
 import com.example.fundingapi.repository.FundingRepository;
 import com.example.fundingapi.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.fundingapi.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class FundingServiceImpl implements FundingService{
 
-    @Autowired
-    ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    FundingRepository fundingRepository;
+    private final FundingRepository fundingRepository;
+
+    private final UserRepository userRepository;
+
+    public FundingServiceImpl(ProductRepository productRepository, FundingRepository fundingRepository, UserRepository userRepository) {
+        this.productRepository = productRepository;
+        this.fundingRepository = fundingRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public List<Product> productList() {
-        String dateTime = LocalDateTime.now() +"";
-        String now = dateTime;
-        List<Product> productList = productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dateTime, now);
+        LocalDateTime dt = LocalDateTime.now();
+
+        List<Product> productList = productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dt, dt);
 
         for(Product product : productList){
             System.out.println(product);
@@ -59,7 +68,7 @@ public class FundingServiceImpl implements FundingService{
 
         if(fundingAmountSum > product.get().getTargetFundingAmount()){
             System.out.println("sold-out");
-            fundingResponse.setFundingStatus("모집 완료");
+            throw new FundingServiceException(ErrorCode.SOLD_OUT);
         }else{
 
             //제품 업데이트
@@ -90,13 +99,21 @@ public class FundingServiceImpl implements FundingService{
     }
 
     @Override
-    public List<Funding> fundingList(long fundingId) {
-        List<Funding> fundingList = fundingRepository.findByFundingId(fundingId);
+    public List<MyFundingDTO> fundingList(long userId) {
+
+        List<Funding> fundingList = fundingRepository.findByUserUserId(userId);
+        List<MyFundingDTO> myFundingList = new ArrayList<>();
 
         for(Funding funding: fundingList){
-            System.out.println(funding);
-        }
+            MyFundingDTO myFundingDTO = new MyFundingDTO();
+            myFundingDTO.setProductId(funding.getProduct().getProductId());
+            myFundingDTO.setTitle(funding.getProduct().getTitle());
+            myFundingDTO.setTotalFundingAmount(funding.getProduct().getTotalFundingAmount());
+            myFundingDTO.setFundingAmount(funding.getFundingAmount());
+            myFundingDTO.setFundingDate(funding.getFundingDate());
 
-        return fundingList;
+            myFundingList.add(myFundingDTO);
+        }
+        return myFundingList;
     }
 }
