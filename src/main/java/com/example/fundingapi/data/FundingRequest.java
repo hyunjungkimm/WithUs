@@ -3,9 +3,6 @@ package com.example.fundingapi.data;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.lang.Nullable;
-
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
@@ -15,7 +12,7 @@ import javax.validation.constraints.Positive;
 public class FundingRequest {
 
 
-    @NotBlank(message = "안뜸")
+    @NotNull(message = "펀딩금액은 필수이며 양수여야 합니다. 22")
     @Positive
     private int fundingAmount;
 
