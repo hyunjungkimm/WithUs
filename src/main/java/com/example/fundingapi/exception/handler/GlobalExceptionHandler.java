@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
+import javax.validation.UnexpectedTypeException;
 
 
 @ControllerAdvice
@@ -23,8 +24,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value= {ConstraintViolationException.class, MethodArgumentNotValidException.class, HttpMessageNotReadableException.class})
     protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(HttpServletRequest e){
         log.error("handleMethodArgumentNotValidException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.REQUIRED_VALUE);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);//400
+    }
+
+    @ExceptionHandler(value= UnexpectedTypeException.class)
+    protected ResponseEntity<ErrorResponse> UnexpectedTypeException(UnexpectedTypeException e){
+        log.error("UnexpectedTypeException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.REQUIRED_VALUE);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);//500
     }
 
     @ExceptionHandler(value=EntityNotFoundException.class)

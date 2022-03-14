@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
     INVALID_INPUT_VALUE("Parameter가 Invalid 합니다.", "M001"),
+    REQUIRED_VALUE("펀딩금액은 필수이며 양수여야 합니다.", "M001-1"),
     NOT_EXISTS_USED_ID_HEADER("Header에 USER ID가 없습니다.", "M002"),
     NOT_SIGNED_UP_USER("가입된 사용자가 아닙니다. ", "M003"),
     SOLD_OUT("이미 모집 완료 되었습니다. ", "M004"),
