@@ -10,10 +10,12 @@ import com.example.fundingapi.dto.MyFundingDTO;
 import java.util.List;
 
 public interface FundingService {
-    public List<Product> productList();
+    List<Product> productList();
 
-    public FundingResponse productFunding(long userId, long productId, FundingRequest fundingRequest);
+    FundingResponse productFunding(long userId, long productId, FundingRequest fundingRequest);
 
-    public List<MyFundingDTO> fundingList(long userId);
+    List<MyFundingDTO> fundingList(long userId);
+
+    void lockTest(long productId);
 
 }
