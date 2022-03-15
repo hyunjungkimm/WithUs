@@ -37,8 +37,6 @@ public class Product implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     List<Funding> funding = new ArrayList<>();
 
-    @Version
-    private Integer version;
 
 }
 

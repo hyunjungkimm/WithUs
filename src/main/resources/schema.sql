@@ -17,7 +17,6 @@ CREATE TABLE PRODUCT (
                          TOTAL_FUNDING_AMOUNT integer,
                          FUNDING_STATUS varchar(30),
                          FUNDING_USER_NUMBER integer,
-                         VERSION integer,
                          primary key (PRODUCT_ID)
 );
 

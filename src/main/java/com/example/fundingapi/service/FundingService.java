@@ -15,7 +15,10 @@ public interface FundingService {
     FundingResponse productFunding(long userId, long productId, FundingRequest fundingRequest);
 
     List<MyFundingDTO> fundingList(long userId);
+/*
 
     void lockTest(long productId);
+*/
 
+    void pessimistcLockTest(long productId);
 }

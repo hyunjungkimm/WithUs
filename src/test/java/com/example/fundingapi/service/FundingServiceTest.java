@@ -18,19 +18,19 @@ public class FundingServiceTest {
     @Autowired
     private FundingService fundingService;
 
+
     @Test
     @DisplayName("펀딩하기 (멀티 스레드) 테스트 - 오류")
     public void fundingForMultiThreadTest() throws InterruptedException {
-        ExecutorService executorService = null;
         AtomicInteger successCount = new AtomicInteger();
-        int numberOfExcute = 10 ;
-        ExecutorService service = Executors.newFixedThreadPool(5);
+        int numberOfExcute = 100 ;
+        ExecutorService service = Executors.newFixedThreadPool(10);
         CountDownLatch latch = new CountDownLatch(numberOfExcute);
 
         for(int i = 0; i < numberOfExcute; i++){
             service.execute(() -> {
                 try{
-                    fundingService.lockTest(1001);
+                    fundingService.pessimistcLockTest(1001);
                     successCount.getAndIncrement();
                     System.out.println("성공");
                 } catch (ObjectOptimisticLockingFailureException oe){
@@ -45,6 +45,5 @@ public class FundingServiceTest {
 
         assertThat(successCount.get()).isEqualTo(5);
     }
-
 
 }
