@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.fundingapi.data.FundingRequest;
 import com.example.fundingapi.data.FundingResponse;
 import com.example.fundingapi.dto.MyFundingDTO;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.fundingapi.domain.Product;
@@ -14,6 +15,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @RestController
+@Validated
 public class FundingController {
 
     private final FundingService fundingService;
