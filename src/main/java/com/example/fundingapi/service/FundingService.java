@@ -6,6 +6,7 @@ import com.example.fundingapi.domain.Funding;
 import com.example.fundingapi.domain.Product;
 import com.example.fundingapi.dto.FundingDTO;
 import com.example.fundingapi.dto.MyFundingDTO;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -21,4 +22,5 @@ public interface FundingService {
 */
 
     void pessimistcLockTest(long productId);
+
 }
