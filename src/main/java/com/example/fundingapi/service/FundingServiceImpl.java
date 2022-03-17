@@ -14,6 +14,7 @@ import com.example.fundingapi.repository.UserRepository;
 import org.apache.juli.logging.Log;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
@@ -38,10 +39,10 @@ public class FundingServiceImpl implements FundingService{
     }
 
     @Override
-    public List<Product> productList() {
+    public Page<Product> productList(Pageable pageable) {
         LocalDateTime dt = LocalDateTime.now();
 
-        List<Product> productList = productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dt, dt);
+        Page<Product> productList = productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dt, dt, pageable);
 
         for(Product product : productList){
             System.out.println(product);

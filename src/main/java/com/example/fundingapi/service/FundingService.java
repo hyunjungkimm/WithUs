@@ -7,11 +7,12 @@ import com.example.fundingapi.domain.Product;
 import com.example.fundingapi.dto.FundingDTO;
 import com.example.fundingapi.dto.MyFundingDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface FundingService {
-    List<Product> productList();
+    Page<Product> productList(Pageable pageable);
 
     FundingResponse productFunding(long userId, long productId, FundingRequest fundingRequest);
 

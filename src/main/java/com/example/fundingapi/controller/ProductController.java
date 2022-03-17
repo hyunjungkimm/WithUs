@@ -5,6 +5,7 @@ import com.example.fundingapi.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.fundingapi.service.FundingService;
@@ -52,7 +53,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/v2/products/list")
-	public Page<Product> getAllProductWithPageByQueryMethod(@RequestParam("page") Integer page, @RequestParam("size") Integer size){
+	public Slice<Product> getAllProductWithPageByQueryMethod(@RequestParam("page") Integer page, @RequestParam("size") Integer size){
 		PageRequest pageRequest = PageRequest.of(page, size);
 		LocalDateTime dt = LocalDateTime.now();
 		return productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dt, dt, pageRequest);
