@@ -1,11 +1,17 @@
 package com.example.fundingapi.service;
 
 import com.example.fundingapi.data.FundingRequest;
+import com.example.fundingapi.data.FundingResponse;
+import com.example.fundingapi.domain.Funding;
 import com.example.fundingapi.domain.Product;
 import com.example.fundingapi.domain.User;
+import com.example.fundingapi.dto.MyFundingDTO;
 import com.example.fundingapi.error.ErrorCode;
+import com.example.fundingapi.exception.entity.user.UserNotFoundException;
 import com.example.fundingapi.exception.service.funding.FundingServiceException;
+import com.example.fundingapi.repository.FundingRepository;
 import com.example.fundingapi.repository.ProductRepository;
+import com.example.fundingapi.repository.UserRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +21,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -33,11 +41,10 @@ public class FundingServiceTest {
     @Mock
     private ProductRepository productRepository;
 
+
     @BeforeAll
     void setUp(){
         MockitoAnnotations.openMocks(this);//이 클래스  - this
-
-
     }
 
     @Test
@@ -59,43 +66,27 @@ public class FundingServiceTest {
         assertThat(exception.getErrorCode()).isEqualTo(ErrorCode.SOLD_OUT);
     }
 
+
     @Test
-    @DisplayName("펀딩하기 테스트")
-    void fundingTest() {
+    @DisplayName("회원이 아닌 경우 테스트")
+    public void test2(){
+
+        when(
+            productRepository.findById(1002L)
+        ).thenReturn(
+            Optional.of(new Product())
+        );
+
+        Long userId = 5L;
+        Long productId = 1002L;
+
+
         FundingRequest fundingRequest = new FundingRequest(1000);
-        assertThatCode(
-            () -> fundingService.productFunding(1, 1001,fundingRequest)
-        ).doesNotThrowAnyException();
-    }
 
-    @Test
-    @DisplayName("펀딩하기 (멀티 스레드) 테스트")
-    void fundingForMultiThreadTest() throws InterruptedException {
-        Long userId = 1L;
-        Long productId = 1003L;
-        FundingRequest finalFundingRequest = new FundingRequest(200000);
-        int numberOfExecute = 10;
-        ExecutorService service = Executors.newFixedThreadPool(10);
-        CountDownLatch latch = new CountDownLatch(numberOfExecute);
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> fundingService.productFunding(userId, productId, fundingRequest));
 
-        boolean result;
-        for(int i = 0; i < numberOfExecute; i++){
-            int finalI = i;
-            service.execute(() -> {
-                try {
-                    //테스트 될 메소드
-                    fundingService.productFunding(userId, productId, finalFundingRequest);
-                    System.out.println("i = " + finalI);
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
-                latch.countDown();
-            });
-        }
-        latch.await();
+        assertThat(exception.getMessage()).isEqualTo(ErrorCode.NOT_SIGNED_UP_USER);
 
-        Product product = productRepository.findById(productId)
-            .orElseThrow(() -> new EntityNotFoundException());
 
     }
 
