@@ -2,8 +2,10 @@ package com.example.fundingapi.controller;
 
 import com.example.fundingapi.data.FundingRequest;
 import com.example.fundingapi.data.FundingResponse;
+import com.example.fundingapi.domain.Funding;
 import com.example.fundingapi.domain.Product;
 import com.example.fundingapi.domain.User;
+import com.example.fundingapi.dto.MyFundingDTO;
 import com.example.fundingapi.repository.UserRepository;
 import com.example.fundingapi.service.FundingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -89,5 +91,30 @@ class FundingControllerTest {
         user.setUserId(1L);
         user.setName("jung");
         return Optional.of(user);
+    }
+
+    @DisplayName("내 펀딩 상품 조회하기 api 정상 테스트")
+    @Test
+    public void test3() throws Exception{
+
+        Long userId = 1L;
+
+        when(
+            fundingService.fundingList(userId)
+        ).thenReturn(
+          new ArrayList<MyFundingDTO>()
+        );
+
+        when(
+            userRepository.findById(userId)
+        ).thenReturn(
+            this.makeOptionalUser()
+        );
+
+
+        mockMvc.perform(
+            get("/fundingList")
+                .header("X-USER-ID", userId)
+        ).andExpect(status().isOk());
     }
 }
