@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -19,8 +20,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
+@DataJpaTest
 public class FundingRepositoryTest {
     @Autowired
     private ProductRepository productRepository;
@@ -46,5 +46,13 @@ public class FundingRepositoryTest {
             .isNotNull()
             .hasSizeGreaterThanOrEqualTo(0)
             .hasOnlyElementsOfType(Funding.class);
+    }
+
+    @DisplayName("id 조회 데이터 검증 테스트")
+    @Test
+    public void test04() {
+        User user = userRepository.findById(1L).get();
+
+        assertThat(user.getName()).isEqualTo("jung");
     }
 }

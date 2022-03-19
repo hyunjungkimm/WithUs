@@ -2,25 +2,41 @@ package com.example.fundingapi.service;
 
 import com.example.fundingapi.data.FundingRequest;
 import com.example.fundingapi.domain.Product;
+import com.example.fundingapi.error.ErrorCode;
+import com.example.fundingapi.exception.service.funding.FundingServiceException;
 import com.example.fundingapi.repository.ProductRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import javax.persistence.EntityNotFoundException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class FundingServiceTest {
 
-    @Autowired
+    @InjectMocks
     private FundingService fundingService;
 
-    @Autowired
+    @Mock
     private ProductRepository productRepository;
+
+    @BeforeAll
+    void setUp(){
+        MockitoAnnotations.openMocks(this);//이 클래스  - this
+    }
+
+
     @Test
     @DisplayName("펀딩하기 테스트")
     void fundingTest() {
