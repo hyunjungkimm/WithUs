@@ -14,6 +14,9 @@ import java.util.List;
 @Setter
 @Table(name="PRODUCT")
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Product implements Serializable {
     @Id
     @Column(name ="product_id")

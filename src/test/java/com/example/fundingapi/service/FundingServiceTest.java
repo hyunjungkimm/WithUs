@@ -30,7 +30,7 @@ import java.util.concurrent.Executors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class FundingServiceTest {
@@ -40,6 +40,9 @@ public class FundingServiceTest {
 
     @Mock
     private ProductRepository productRepository;
+
+    @Mock
+    private FundingRepository fundingRepository;
 
 
     @BeforeAll
@@ -51,44 +54,67 @@ public class FundingServiceTest {
     @DisplayName("sold out 테스트")
     public void test1() {
 
-        when(
-            productRepository.findById(1002L)
-        ).thenReturn(
-            Optional.of(new Product())
-        );
-
         Long userId = 1L;
         Long productId = 1002L;
-        FundingRequest fundingRequest = new FundingRequest(1000);
+        FundingRequest fundingRequest = new FundingRequest(500000);
+
+        Product product = Product.builder()
+                                .productId(productId)
+                                .title("환절기 토탈케어 펀딩")
+                                .targetFundingAmount(500000)
+                                .startDate(LocalDateTime.now().minusMonths(1))
+                                .finishDate(LocalDateTime.now().plusMonths(1))
+                                .fundingUserNumber(10)
+                                .fundingStatus("모집중")
+                                .totalFundingAmount(250000)
+                                .build();
+
+        when(
+            productRepository.findById(productId)
+        ).thenReturn(
+            Optional.of(product)
+        );
 
         FundingServiceException exception = assertThrows(FundingServiceException.class, ()-> fundingService.productFunding(userId, productId, fundingRequest));
 
         assertThat(exception.getErrorCode()).isEqualTo(ErrorCode.SOLD_OUT);
     }
 
-
     @Test
-    @DisplayName("회원이 아닌 경우 테스트")
+    @DisplayName("정상 펀딩 테스트 확인")
     public void test2(){
-
-        when(
-            productRepository.findById(1002L)
-        ).thenReturn(
-            Optional.of(new Product())
-        );
-
-        Long userId = 5L;
-        Long productId = 1002L;
-
-
+        Long userId = 1L;
+        Long productId = 1003L;
         FundingRequest fundingRequest = new FundingRequest(1000);
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> fundingService.productFunding(userId, productId, fundingRequest));
+        Product product = Product.builder()
+            .productId(productId)
+            .title("환절기 토탈케어 펀딩")
+            .targetFundingAmount(500000)
+            .startDate(LocalDateTime.now().minusMonths(1))
+            .finishDate(LocalDateTime.now().plusMonths(1))
+            .fundingUserNumber(10)
+            .fundingStatus("모집중")
+            .totalFundingAmount(250000)
+            .build();
 
-        assertThat(exception.getMessage()).isEqualTo(ErrorCode.NOT_SIGNED_UP_USER);
+        when(
+            productRepository.findById(productId)
+        ).thenReturn(
+            Optional.of(product)
+        );
 
+        FundingResponse fundingResponse = fundingService.productFunding(userId, productId, fundingRequest);
 
+        verify(productRepository, times(1)).save(product);
+
+        //verify(fundingRepository, atMost(1)).save(funding);
+
+        assertThat(fundingResponse.getFundingStatus()).isEqualTo("모집중");
     }
+
+
+
 
 
 }

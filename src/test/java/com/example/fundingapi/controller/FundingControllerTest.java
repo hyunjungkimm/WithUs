@@ -87,9 +87,11 @@ class FundingControllerTest {
     }
 
     private Optional<User> makeOptionalUser() {
-        User user = new User();
-        user.setUserId(1L);
-        user.setName("jung");
+        User user = User.builder()
+                        .userId(1L)
+                        .name("jung")
+                        .build();
+
         return Optional.of(user);
     }
 

@@ -44,7 +44,7 @@ public class FundingRepositoryTest {
 
         assertThat(productRepository.findAll())
             .isNotNull()
-            .hasSizeGreaterThanOrEqualTo(0)
+            .hasSizeGreaterThanOrEqualTo(3)
             .hasOnlyElementsOfType(Product.class);
     }
 
@@ -54,7 +54,7 @@ public class FundingRepositoryTest {
     public void test3(Long userId){
         assertThat(fundingRepository.findByUserUserId(userId))
             .isNotNull()
-            .hasSizeGreaterThanOrEqualTo(0)
+            .hasSizeGreaterThanOrEqualTo(1)
             .hasOnlyElementsOfType(Funding.class);
     }
 
