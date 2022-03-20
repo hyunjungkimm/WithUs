@@ -1,17 +1,16 @@
 package com.example.fundingapi.service;
 
-import com.example.fundingapi.data.FundingRequest;
-import com.example.fundingapi.domain.Product;
-import com.example.fundingapi.repository.ProductRepository;
+import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import javax.persistence.EntityNotFoundException;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
+
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 @SpringBootTest
 public class FundingServiceTest {
@@ -19,47 +18,32 @@ public class FundingServiceTest {
     @Autowired
     private FundingService fundingService;
 
-    @Autowired
-    private ProductRepository productRepository;
-    @Test
-    @DisplayName("펀딩하기 테스트")
-    void fundingTest() {
-        FundingRequest fundingRequest = new FundingRequest(1000);
-        assertThatCode(
-            () -> fundingService.productFunding(1, 1001,fundingRequest)
-        ).doesNotThrowAnyException();
-    }
 
     @Test
-    @DisplayName("펀딩하기 (멀티 스레드) 테스트")
-    void fundingForMultiThreadTest() throws InterruptedException {
-        Long userId = 1L;
-        Long productId = 1003L;
-        FundingRequest finalFundingRequest = new FundingRequest(200000);
-        int numberOfExecute = 10;
+    @DisplayName("펀딩하기 (멀티 스레드) 테스트 - 오류")
+    public void fundingForMultiThreadTest() throws InterruptedException {
+        AtomicInteger successCount = new AtomicInteger();
+        int numberOfExcute = 100 ;
         ExecutorService service = Executors.newFixedThreadPool(10);
-        CountDownLatch latch = new CountDownLatch(numberOfExecute);
+        CountDownLatch latch = new CountDownLatch(numberOfExcute);
 
-        boolean result;
-        for(int i = 0; i < numberOfExecute; i++){
-            int finalI = i;
+        for(int i = 0; i < numberOfExcute; i++){
             service.execute(() -> {
-                try {
-                    //테스트 될 메소드
-                    fundingService.productFunding(userId, productId, finalFundingRequest);
-                    System.out.println("i = " + finalI);
-                }catch (Exception e) {
-                    e.printStackTrace();
+                try{
+                    fundingService.pessimistcLockTest(1001);
+                    successCount.getAndIncrement();
+                    System.out.println("성공");
+                } catch (ObjectOptimisticLockingFailureException oe){
+                    System.out.println("충돌감지");
+                } catch (Exception e){
+                    System.out.println(e.getMessage());
                 }
                 latch.countDown();
             });
         }
         latch.await();
 
-        Product product = productRepository.findById(productId)
-            .orElseThrow(() -> new EntityNotFoundException());
-
+        assertThat(successCount.get()).isEqualTo(5);
     }
-
 
 }

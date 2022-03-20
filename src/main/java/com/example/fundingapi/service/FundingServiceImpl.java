@@ -11,12 +11,16 @@ import com.example.fundingapi.exception.service.funding.FundingServiceException;
 import com.example.fundingapi.repository.FundingRepository;
 import com.example.fundingapi.repository.ProductRepository;
 import com.example.fundingapi.repository.UserRepository;
+import org.apache.juli.logging.Log;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 @Service
 public class FundingServiceImpl implements FundingService{
@@ -25,12 +29,9 @@ public class FundingServiceImpl implements FundingService{
 
     private final FundingRepository fundingRepository;
 
-    private final UserRepository userRepository;
-
-    public FundingServiceImpl(ProductRepository productRepository, FundingRepository fundingRepository, UserRepository userRepository) {
+    public FundingServiceImpl(ProductRepository productRepository, FundingRepository fundingRepository) {
         this.productRepository = productRepository;
         this.fundingRepository = fundingRepository;
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -114,5 +115,47 @@ public class FundingServiceImpl implements FundingService{
             myFundingList.add(myFundingDTO);
         }
         return myFundingList;
+    }
+
+  /*  //Lock 걸지 않고 시도해보기 - 낙관적 락 걸기
+    @Override
+    @Transactional
+    public void lockTest(long productId) {
+
+        // select
+        Product product = productRepository.findByProductId(productId);
+        int currentAmount = product.getTotalFundingAmount();
+        System.out.println(currentAmount);
+
+        // sleep -> 3~5초 인터넷 찾아보고 써보기
+        // sleep을 주는 의미 => 다른 비즈니스 코드가 수행되고 있음.
+        try {
+            Thread.sleep(5000);
+        }  catch(Exception e) {
+            e.printStackTrace();
+        }
+        // update
+        product.setTotalFundingAmount(currentAmount+1000);
+    }*/
+
+    //Lock 걸지 않고 시도해보기 - 비관적 락걸기
+    @Override
+    @Transactional
+    public void pessimistcLockTest(long productId) {
+
+        // select
+        Product product = productRepository.findByProductId(productId);
+        int currentAmount = product.getTotalFundingAmount();
+        System.out.println(currentAmount);
+
+        // sleep -> 3~5초 인터넷 찾아보고 써보기
+        // sleep을 주는 의미 => 다른 비즈니스 코드가 수행되고 있음.
+        try {
+            Thread.sleep(2000);
+        }  catch(Exception e) {
+            e.printStackTrace();
+        }
+        // update
+        product.setTotalFundingAmount(currentAmount+1000);
     }
 }

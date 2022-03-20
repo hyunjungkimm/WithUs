@@ -1,6 +1,6 @@
 package com.example.fundingapi.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.fundingapi.error.ErrorCode;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -36,6 +36,7 @@ public class Product implements Serializable {
     @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     List<Funding> funding = new ArrayList<>();
+
 
 }
 
