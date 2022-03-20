@@ -1,19 +1,28 @@
 package com.example.fundingapi.controller;
 
+import com.example.fundingapi.domain.Product;
+import com.example.fundingapi.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.PessimisticLockingFailureException;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.fundingapi.service.FundingService;
+
+import java.time.LocalDateTime;
 
 @RestController
 public class ProductController {
 
 	@Autowired
 	private FundingService fundingService;
+
+	private final ProductRepository productRepository;
+
+	public ProductController(ProductRepository productRepository) {
+		this.productRepository = productRepository;
+	}
 /*
 
 	@PatchMapping("/v1/products/{product_id}/funding")
@@ -35,5 +44,18 @@ public class ProductController {
 	) {
 		fundingService.pessimistcLockTest(productId);
 
+	}
+
+	@GetMapping("/v1/products/list")
+	public Page<Product> getAllProducts(){
+		PageRequest pageRequest = PageRequest.of(0,4);
+		return productRepository.findAll(pageRequest);
+	}
+
+	@GetMapping("/v2/products/list")
+	public Slice<Product> getAllProductWithPageByQueryMethod(@RequestParam("page") Integer page, @RequestParam("size") Integer size){
+		PageRequest pageRequest = PageRequest.of(page, size);
+		LocalDateTime dt = LocalDateTime.now();
+		return productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dt, dt, pageRequest);
 	}
 }
