@@ -10,8 +10,6 @@ import java.util.List;
 
 public interface FundingRepository extends JpaRepository<Funding, Long> {
 
-    @Transactional
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
     List<Funding> findByUserUserId(long userId);
 
 

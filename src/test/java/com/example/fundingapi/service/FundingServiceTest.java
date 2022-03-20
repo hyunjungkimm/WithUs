@@ -59,15 +59,15 @@ public class FundingServiceTest {
         FundingRequest fundingRequest = new FundingRequest(500000);
 
         Product product = Product.builder()
-                                .productId(productId)
-                                .title("환절기 토탈케어 펀딩")
-                                .targetFundingAmount(500000)
-                                .startDate(LocalDateTime.now().minusMonths(1))
-                                .finishDate(LocalDateTime.now().plusMonths(1))
-                                .fundingUserNumber(10)
-                                .fundingStatus("모집중")
-                                .totalFundingAmount(250000)
-                                .build();
+            .productId(productId)
+            .title("환절기 토탈케어 펀딩")
+            .targetFundingAmount(500000)
+            .startDate(LocalDateTime.now().minusMonths(1))
+            .finishDate(LocalDateTime.now().plusMonths(1))
+            .fundingUserNumber(10)
+            .fundingStatus("모집중")
+            .totalFundingAmount(250000)
+            .build();
 
         when(
             productRepository.findById(productId)

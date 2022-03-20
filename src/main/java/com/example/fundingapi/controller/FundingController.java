@@ -5,6 +5,9 @@ import java.util.List;
 import com.example.fundingapi.data.FundingRequest;
 import com.example.fundingapi.data.FundingResponse;
 import com.example.fundingapi.dto.MyFundingDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,9 +29,10 @@ public class FundingController {
 
     @GetMapping("/productList")
     @ResponseBody
-    public List<Product> productList(){
-        return fundingService.productList();
+    public Page<Product> productList(Pageable pageable){
+        return fundingService.productList(pageable);
     }
+
 
     @PostMapping(value = "/products/{product_id}/funding")
     @ResponseBody

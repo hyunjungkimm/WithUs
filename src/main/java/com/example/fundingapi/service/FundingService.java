@@ -6,14 +6,22 @@ import com.example.fundingapi.domain.Funding;
 import com.example.fundingapi.domain.Product;
 import com.example.fundingapi.dto.FundingDTO;
 import com.example.fundingapi.dto.MyFundingDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface FundingService {
-    public List<Product> productList();
+    Page<Product> productList(Pageable pageable);
 
-    public FundingResponse productFunding(long userId, long productId, FundingRequest fundingRequest);
+    FundingResponse productFunding(long userId, long productId, FundingRequest fundingRequest);
 
-    public List<MyFundingDTO> fundingList(long userId);
+    List<MyFundingDTO> fundingList(long userId);
+/*
+
+    void lockTest(long productId);
+*/
+
+    void pessimistcLockTest(long productId);
 
 }
