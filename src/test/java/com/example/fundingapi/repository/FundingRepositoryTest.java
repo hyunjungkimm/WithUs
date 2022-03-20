@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -19,8 +20,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
+@DataJpaTest
 public class FundingRepositoryTest {
     @Autowired
     private ProductRepository productRepository;
@@ -29,22 +29,34 @@ public class FundingRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
-    @DisplayName("테스트01_정상_펀딩상품_전체_목록_조회")
+
+    @DisplayName("id 조회 데이터 검증 테스트")
     @Test
-    public void 테스트01_정상_펀딩상품_전체_목록_조회(){
+    public void test1() {
+        User user = userRepository.findById(1L).get();
+
+        assertThat(user.getName()).isEqualTo("jung");
+    }
+
+    @DisplayName("정상 펀딩 상품 전체 목록 조회 테스트")
+    @Test
+    public void test2(){
+
         assertThat(productRepository.findAll())
             .isNotNull()
-            .hasSizeGreaterThanOrEqualTo(0)
+            .hasSizeGreaterThanOrEqualTo(3)
             .hasOnlyElementsOfType(Product.class);
     }
 
-    @DisplayName("테스트03_나의_펀딩상품_조회")
+    @DisplayName("나의 펀딩상품 조회")
     @ParameterizedTest
     @ValueSource(longs={1,2,3})
-    public void 테스트03_나의_펀딩상품_조회(Long userId){
+    public void test3(Long userId){
         assertThat(fundingRepository.findByUserUserId(userId))
             .isNotNull()
-            .hasSizeGreaterThanOrEqualTo(0)
+            .hasSizeGreaterThanOrEqualTo(1)
             .hasOnlyElementsOfType(Funding.class);
     }
+
+
 }

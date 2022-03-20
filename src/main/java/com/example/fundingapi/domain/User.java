@@ -1,10 +1,7 @@
 package com.example.fundingapi.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,6 +11,9 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name="user")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class User {
     @Id
     @Column(name ="user_id")
