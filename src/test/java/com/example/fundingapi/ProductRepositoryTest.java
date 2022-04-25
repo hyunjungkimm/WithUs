@@ -9,6 +9,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -31,7 +34,8 @@ public class ProductRepositoryTest {
     @DisplayName("전체펀딩상품조회API")
     public void findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(){
         LocalDateTime dateTime = LocalDateTime.now();
-        List<Product> list = productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dateTime,dateTime);
+        Pageable pageable = PageRequest.of(0, 5);
+        Page<Product> list = productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dateTime,dateTime,pageable);
         System.out.println(dateTime);
         for(Product product : list){
             System.out.println(product.getProductId());

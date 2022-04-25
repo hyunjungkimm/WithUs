@@ -29,8 +29,8 @@ public class FundingController {
 
     @GetMapping("/productList")
     @ResponseBody
-    public Page<Product> productList(Pageable pageable){
-        return fundingService.productList(pageable);
+    public List<Product> productList(){
+        return fundingService.productList();
     }
 
 

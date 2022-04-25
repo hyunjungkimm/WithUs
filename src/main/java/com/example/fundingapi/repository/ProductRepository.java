@@ -17,7 +17,7 @@ import javax.persistence.LockModeType;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-	List<Product> findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(LocalDateTime dateTime, LocalDateTime now);
+	//List<Product> findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(LocalDateTime dateTime, LocalDateTime now);
 
 	Page<Product> findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(LocalDateTime dateTime, LocalDateTime now, Pageable pageable);
 /*
