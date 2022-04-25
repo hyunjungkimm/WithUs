@@ -10,13 +10,6 @@ import com.example.fundingapi.error.ErrorCode;
 import com.example.fundingapi.exception.service.funding.FundingServiceException;
 import com.example.fundingapi.repository.FundingRepository;
 import com.example.fundingapi.repository.ProductRepository;
-import com.example.fundingapi.repository.UserRepository;
-import org.apache.juli.logging.Log;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -39,10 +32,11 @@ public class FundingServiceImpl implements FundingService{
     }
 
     @Override
-    public Page<Product> productList(Pageable pageable) {
+    public List<Product> productList() {
         LocalDateTime dt = LocalDateTime.now();
 
-        Page<Product> productList = productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dt, dt, pageable);
+        //Page<Product> productList = productRepository.findProductByFinishDateGreaterThanEqualAndStartDateLessThanEqual(dt, dt, pageable);
+        List<Product> productList = productRepository.findAll();
 
         for(Product product : productList){
             System.out.println(product);
@@ -52,6 +46,7 @@ public class FundingServiceImpl implements FundingService{
     }
 
     @Override
+    @Transactional
     public FundingResponse productFunding(long userId, long productId, FundingRequest fundingRequest) {
         Optional<Product> product = productRepository.findById(productId);
 
