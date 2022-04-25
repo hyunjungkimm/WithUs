@@ -88,6 +88,7 @@ public class FundingServiceImpl implements FundingService{
             funding.setFundingId(funding.getFundingId());
             funding.setUser(user);
             funding.setProduct(product1);
+
             fundingRepository.save(funding);
 
             fundingResponse.setFundingStatus("모집중");
